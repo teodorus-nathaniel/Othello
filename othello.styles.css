@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css?family=Russo+One&display=swap');
+
+:root {
+	--board-color: rgb(16, 116, 16);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Russo one';
+}
+
+html {
+	width: 100%;
+	height: 100%;
+}
+body {
+	background-image: url(./assets/background.jpg);
+	background-size: cover;
+	height: 100%;
+	overflow: hidden;
+
+	--player-color: 0, 0, 0;
+	--enemy-color: 230, 230, 230;
+}
+body.is-white {
+	--player-color: 255, 255, 255;
+	--enemy-color: 20, 20, 20;
+}
+
+.othello-board-container {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 500px;
+	height: 600px;
+	background-color: rgb(50, 50, 50);
+	border-radius: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: inset 0px 0px 15px 30px rgba(30, 30, 30, .5), 0px 0px 10px 5px rgb(10, 10, 10);
+}
+.othello-board {
+	width: 400px;
+	height: 400px;
+	background-color: var(--board-color);
+	position: relative;
+}
+.othello-board::after {
+	content: '';
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	width: calc(100% + 10px);
+	height: calc(100% + 10px);
+	background-color: black;
+	z-index: -1;
+}
+.othello-board .row-tiles {
+	display: flex;
+	height: calc(100% / 8);
+}
+.othello-board .row-tiles > div {
+	width: calc(100% / 8);
+	height: 100%;
+	border: 1px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.othello-board .row-tiles > div:hover {
+	background-color: darkgreen;
+}
+
+.othello-board .row-tiles .circle {
+	width: 80%;
+	height: 80%;
+	border-radius: 50%;
+	position: relative;
+	transition: all 500ms linear;
+	transform-style: preserve-3d;
+}
+.othello-board .row-tiles .circle.black {
+	transform: rotateY(180deg);
+}
+.othello-board .row-tiles .circle.white {
+	translate: rotateY(0deg);
+}
+.othello-board .row-tiles .circle .white,
+.othello-board .row-tiles .circle .black {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	backface-visibility: hidden;
+}
+.othello-board .row-tiles .circle .white {
+	background-color: white;
+	border: 1px solid black;
+}
+.othello-board .row-tiles .circle .black {
+	background-color: black;
+	border: 1px solid white;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: rotateY(180deg);
+}
+.game-status-container {
+	position: relative;
+	padding: 30px;
+}
+#game-status {
+	font-size: 20px;
+	color: rgb(var(--player-color));
+	width: 300px;
+	padding: 20px;
+	background-color: rgb(58, 155, 58);
+	border-radius: 20px;
+	border: 2px solid rgb(var(--player-color));
+	box-shadow: 3px 3px 10px 0px rgba(var(--player-color), .7);
+	transition: all 500ms;
+}
+#game-status > * {
+	margin: 5px 0px;
+}
+#game-status button {
+	padding: 5px 15px;
+	background-color: transparent;
+	border-radius: 10px;
+	border: 1px solid rgb(var(--enemy-color));
+	font-size: 20px;
+	box-shadow: 0px 0px 3px 0px rgba(var(--player-color), .8);
+	color: rgb(var(--enemy-color));
+	text-shadow: 0px 0px 5px rgba(var(--player-color), .7);
+}
+#game-status button:hover {
+	background-color: rgb(var(--player-color));
+}
+
+#player {
+	position: inline-block;
+	padding: 5px 10px;
+	background-color: rgb(var(--player-color));
+	color: rgb(var(--enemy-color));
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px 0px rgba(var(--enemy-color), .8);
+	transition: all 500ms;
+}
+
+#win-overlay {
+	display: block;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	z-index: 999;
+	opacity: 1;
+	background-color: rgba(var(--enemy-color), .5);
+	color: rgb(var(--player-color));
+	text-align: center;
+	transition: all 750ms ease-in-out;
+}
+#win-overlay.hide {
+	opacity: 0;
+	z-index: -5;
+}
+#win-overlay div {
+	background-color: rgba(var(--enemy-color), .7);
+	border-radius: 20px;
+	padding: 50px 70px;
+	position: absolute;
+	left: 50%;
+	top: 45%;
+	transform: translate(-50%, -50%);
+}
+
+#restart-btn {
+	margin-top: 20px;
+	background-color: rgb(0, 67, 145);
+	color: white;
+	font-size: medium;
+	padding: 10px 20px;
+	border: 0;
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px 0px rgba(var(--player-color), .2), 0px 0px 3px 0px rgba(var(--player-color), .5);
+	transition: all 500ms;
+}
+#restart-btn:hover {
+	box-shadow: 0px 0px 25px 0px rgba(var(--player-color), .3), 0px 0px 8px 0px rgba(var(--player-color), .5);
+}

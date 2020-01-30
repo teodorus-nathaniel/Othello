@@ -77,7 +77,7 @@ function changeTurn() {
 
 	updateLabel(isWhiteTurn, blackCount, whiteCount);
 
-	if (whiteCount + blackCount >= 6) {
+	if (whiteCount + blackCount >= 64) {
 		showWinOverlay();
 		document.body.classList.remove('is-white');
 		if (whiteCount > blackCount) document.body.classList.add('is-white');

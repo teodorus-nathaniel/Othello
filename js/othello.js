@@ -1,4 +1,4 @@
-import OthelloPin from './modules/othello-pin.mjs';
+import OthelloPin from './modules/othello-pin.js';
 
 const rows = document.getElementsByClassName('row-tiles');
 const othelloBoard = document.getElementById('othello-board');
@@ -11,7 +11,7 @@ const playerLabel = document.getElementById('player');
 const blackCountLabel = document.getElementById('black-count');
 const whiteCountLabel = document.getElementById('white-count');
 
-function initGame (){
+function initGame() {
 	blackCount = 2;
 	whiteCount = 2;
 	isWhiteTurn = true;
@@ -36,7 +36,7 @@ function initGame (){
 	othelloTiles[4][3].innerHTML = OthelloPin('black');
 }
 
-function checkNeighbors (tiles, turn, now, move, turnTiles = []){
+function checkNeighbors(tiles, turn, now, move, turnTiles = []) {
 	const { x, y } = now;
 	const checkX = +x + move.x;
 	const checkY = +y + move.y;
@@ -51,11 +51,11 @@ function checkNeighbors (tiles, turn, now, move, turnTiles = []){
 	return checkNeighbors(tiles, turn, { x: checkX, y: checkY }, move, [ ...turnTiles, checkTile ]);
 }
 
-function getWhosTurn (isWhiteTurn){
+function getWhosTurn(isWhiteTurn) {
 	return isWhiteTurn ? 'white' : 'black';
 }
 
-function updateLabel (isWhiteTurn, blackCount, whiteCount){
+function updateLabel(isWhiteTurn, blackCount, whiteCount) {
 	blackCountLabel.textContent = blackCount;
 	whiteCountLabel.textContent = whiteCount;
 
@@ -64,14 +64,14 @@ function updateLabel (isWhiteTurn, blackCount, whiteCount){
 
 initGame();
 
-function showWinOverlay (){
+function showWinOverlay() {
 	document.getElementById('win-overlay').classList.remove('hide');
 	document.getElementById('player-win').textContent = blackCount > whiteCount ? 'Black' : 'White';
 	document.getElementById('white-count-win').textContent = whiteCount;
 	document.getElementById('black-count-win').textContent = blackCount;
 }
 
-function changeTurn (){
+function changeTurn() {
 	isWhiteTurn = !isWhiteTurn;
 	document.body.classList.toggle('is-white');
 

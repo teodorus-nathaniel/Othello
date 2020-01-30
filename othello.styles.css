@@ -16,7 +16,7 @@ html {
 	height: 100%;
 }
 body {
-	background-image: url(./assets/background.jpg);
+	background: url(./assets/background.jpg) #561e03;
 	background-size: cover;
 	height: 100%;
 	overflow: hidden;

@@ -34,8 +34,8 @@ body.is-white {
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 500px;
-	height: 600px;
+	width: 450px;
+	height: 550px;
 	background-color: rgb(50, 50, 50);
 	border-radius: 30px;
 	display: flex;

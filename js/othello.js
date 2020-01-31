@@ -72,7 +72,8 @@ initGame();
 
 function showWinOverlay (){
 	document.getElementById('win-overlay').classList.remove('hide');
-	document.getElementById('player-win').textContent = whiteCount > blackCount ? 'White' : 'Black';
+	document.getElementById('player-win').textContent =
+		whiteCount === blackCount ? 'No One' : whiteCount > blackCount ? 'White' : 'Black';
 	document.getElementById('white-count-win').textContent = whiteCount;
 	document.getElementById('black-count-win').textContent = blackCount;
 }
@@ -83,9 +84,10 @@ function changeTurn (){
 
 	updateLabel(blackCount, whiteCount);
 
-	if (whiteCount + blackCount >= 6) {
+	if (whiteCount + blackCount >= 64) {
 		document.body.classList.remove('is-white');
-		if (whiteCount > blackCount) document.body.classList.add('is-white');
+		if (whiteCount === blackCount) document.body.classList.add('is-tie');
+		else if (whiteCount > blackCount) document.body.classList.add('is-white');
 		showWinOverlay();
 	}
 }

@@ -7,19 +7,27 @@ let isWhiteTurn = true;
 let blackCount = 2;
 let whiteCount = 2;
 
-const playerLabel = document.getElementById('player');
 const blackCountLabel = document.getElementById('black-count');
 const whiteCountLabel = document.getElementById('white-count');
 
-function initGame() {
+async function updateCountLabel (label, count){
+	await label.classList.add('update-effect');
+	setTimeout(() => {
+		label.textContent = count;
+	}, 500);
+	setTimeout(() => {
+		label.classList.remove('update-effect');
+	}, 1000);
+}
+
+function initGame (){
 	blackCount = 2;
 	whiteCount = 2;
 	isWhiteTurn = true;
-	playerLabel.textContent = 'white';
-	blackCountLabel.textContent = blackCount;
-	whiteCountLabel.textContent = whiteCount;
-	document.getElementById('win-overlay').classList.add('hide');
+	updateCountLabel(blackCountLabel, blackCount);
+	updateCountLabel(whiteCountLabel, whiteCount);
 
+	document.getElementById('win-overlay').classList.add('hide');
 	document.body.classList.add('is-white');
 
 	othelloTiles.forEach((row, i) => {
@@ -36,7 +44,7 @@ function initGame() {
 	othelloTiles[4][3].innerHTML = OthelloPin('black');
 }
 
-function checkNeighbors(tiles, turn, now, move, turnTiles = []) {
+function checkNeighbors (tiles, turn, now, move, turnTiles = []){
 	const { x, y } = now;
 	const checkX = +x + move.x;
 	const checkY = +y + move.y;
@@ -51,36 +59,34 @@ function checkNeighbors(tiles, turn, now, move, turnTiles = []) {
 	return checkNeighbors(tiles, turn, { x: checkX, y: checkY }, move, [ ...turnTiles, checkTile ]);
 }
 
-function getWhosTurn(isWhiteTurn) {
+function getWhosTurn (isWhiteTurn){
 	return isWhiteTurn ? 'white' : 'black';
 }
 
-function updateLabel(isWhiteTurn, blackCount, whiteCount) {
-	blackCountLabel.textContent = blackCount;
-	whiteCountLabel.textContent = whiteCount;
-
-	playerLabel.textContent = getWhosTurn(isWhiteTurn);
+function updateLabel (blackCount, whiteCount){
+	updateCountLabel(blackCountLabel, blackCount);
+	updateCountLabel(whiteCountLabel, whiteCount);
 }
 
 initGame();
 
-function showWinOverlay() {
+function showWinOverlay (){
 	document.getElementById('win-overlay').classList.remove('hide');
-	document.getElementById('player-win').textContent = blackCount > whiteCount ? 'Black' : 'White';
+	document.getElementById('player-win').textContent = whiteCount > blackCount ? 'White' : 'Black';
 	document.getElementById('white-count-win').textContent = whiteCount;
 	document.getElementById('black-count-win').textContent = blackCount;
 }
 
-function changeTurn() {
+function changeTurn (){
 	isWhiteTurn = !isWhiteTurn;
 	document.body.classList.toggle('is-white');
 
-	updateLabel(isWhiteTurn, blackCount, whiteCount);
+	updateLabel(blackCount, whiteCount);
 
-	if (whiteCount + blackCount >= 64) {
-		showWinOverlay();
+	if (whiteCount + blackCount >= 6) {
 		document.body.classList.remove('is-white');
 		if (whiteCount > blackCount) document.body.classList.add('is-white');
+		showWinOverlay();
 	}
 }
 
@@ -120,5 +126,4 @@ othelloBoard.addEventListener('click', (e) => {
 	changeTurn();
 });
 
-document.getElementById('skip-btn').addEventListener('click', changeTurn);
 document.getElementById('restart-btn').addEventListener('click', initGame);

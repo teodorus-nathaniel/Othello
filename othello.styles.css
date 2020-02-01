@@ -8,7 +8,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: 'Russo one';
+	font-family: 'Russo One', sans-serif;
 }
 body {
 	background: url(./assets/background.jpg) #561e03;
@@ -120,9 +120,21 @@ body.is-white .black-overlay {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 }
 .othello-board .row-tiles > div:hover {
 	background-color: darkgreen;
+}
+.othello-board .row-tiles > div.hovered:hover::after {
+	content: '';
+	position: absolute;
+	width: 80%;
+	height: 80%;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	border: 1px solid rgba(var(--player-color), .7);
 }
 .othello-board .row-tiles .circle {
 	width: 80%;

@@ -10,7 +10,7 @@ let whiteCount = 2;
 const blackCountLabel = document.getElementById('black-count');
 const whiteCountLabel = document.getElementById('white-count');
 
-async function updateCountLabel (label, count){
+async function updateCountLabel(label, count) {
 	await label.classList.add('update-effect');
 	setTimeout(() => {
 		label.textContent = count;
@@ -20,7 +20,7 @@ async function updateCountLabel (label, count){
 	}, 1000);
 }
 
-function initGame (){
+function initGame() {
 	blackCount = 2;
 	whiteCount = 2;
 	isWhiteTurn = true;
@@ -44,7 +44,7 @@ function initGame (){
 	othelloTiles[4][3].innerHTML = OthelloPin('black');
 }
 
-function checkNeighbors (tiles, turn, now, move, turnTiles = []){
+function checkNeighbors(tiles, turn, now, move, turnTiles = []) {
 	const { x, y } = now;
 	const checkX = +x + move.x;
 	const checkY = +y + move.y;
@@ -59,18 +59,18 @@ function checkNeighbors (tiles, turn, now, move, turnTiles = []){
 	return checkNeighbors(tiles, turn, { x: checkX, y: checkY }, move, [ ...turnTiles, checkTile ]);
 }
 
-function getWhosTurn (isWhiteTurn){
+function getWhosTurn(isWhiteTurn) {
 	return isWhiteTurn ? 'white' : 'black';
 }
 
-function updateLabel (blackCount, whiteCount){
+function updateLabel(blackCount, whiteCount) {
 	updateCountLabel(blackCountLabel, blackCount);
 	updateCountLabel(whiteCountLabel, whiteCount);
 }
 
 initGame();
 
-function showWinOverlay (){
+function showWinOverlay() {
 	document.getElementById('win-overlay').classList.remove('hide');
 	document.getElementById('player-win').textContent =
 		whiteCount === blackCount ? 'No One' : whiteCount > blackCount ? 'White' : 'Black';
@@ -78,7 +78,7 @@ function showWinOverlay (){
 	document.getElementById('black-count-win').textContent = blackCount;
 }
 
-function changeTurn (){
+function changeTurn() {
 	isWhiteTurn = !isWhiteTurn;
 	document.body.classList.toggle('is-white');
 
@@ -92,12 +92,11 @@ function changeTurn (){
 	}
 }
 
-othelloBoard.addEventListener('click', (e) => {
-	const closest = e.target.closest('.tile');
-	const posData = closest.dataset;
+function getTilesTurned(tile) {
+	const posData = tile.dataset;
 	const turnColor = getWhosTurn(isWhiteTurn);
 
-	if (closest.children.length !== 0) return;
+	if (tile.children.length !== 0) return;
 
 	let turned = checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: 1 });
 	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: -1 }) ];
@@ -108,7 +107,31 @@ othelloBoard.addEventListener('click', (e) => {
 	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: 1 }) ];
 	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: -1 }) ];
 
+	return turned;
+}
+
+othelloBoard.addEventListener('mouseover', function(e) {
+	const closest = e.target.closest('.tile');
+	if (!closest) return;
+	const turned = getTilesTurned(closest);
+
+	if (!turned || turned.length === 0) return;
+	closest.classList.add('hovered');
+});
+othelloBoard.addEventListener('mouseout', function(e) {
+	const closest = e.target.closest('.tile');
+	if (!closest) return;
+
+	closest.classList.remove('hovered');
+});
+
+othelloBoard.addEventListener('click', (e) => {
+	const closest = e.target.closest('.tile');
+	if (!closest) return;
+	const turned = getTilesTurned(closest);
+
 	if (turned.length === 0) return;
+	const turnColor = getWhosTurn(isWhiteTurn);
 
 	turned.forEach((tile) => {
 		tile.children[0].classList.remove('black');

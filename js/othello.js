@@ -78,7 +78,7 @@ function getWhosTurn (isWhiteTurn){
 	return isWhiteTurn ? 'white' : 'black';
 }
 
-function updateLabel (blackCount, whiteCount){
+function updateAllLabels (blackCount, whiteCount){
 	updateCountLabels(blackCountLabels, blackCount);
 	updateCountLabels(whiteCountLabels, whiteCount);
 }
@@ -99,13 +99,7 @@ function changeTurn (){
 	isWhiteTurn = !isWhiteTurn;
 	document.body.classList.toggle('is-white');
 
-	const meta = document.querySelector('meta[name="theme-color"]');
-	let color;
-	if (isWhiteTurn) color = '#f0f0f0';
-	else color = '#0f0f0f';
-	meta.setAttribute('content', color);
-
-	updateLabel(blackCount, whiteCount);
+	updateAllLabels(blackCount, whiteCount);
 
 	if (whiteCount + blackCount >= 64) {
 		document.body.classList.remove('is-white');

@@ -10,7 +10,7 @@ let whiteCount = 2;
 const blackCountLabel = document.getElementById('black-count');
 const whiteCountLabel = document.getElementById('white-count');
 
-async function updateCountLabel(label, count) {
+async function updateCountLabel (label, count){
 	await label.classList.add('update-effect');
 	setTimeout(() => {
 		label.textContent = count;
@@ -20,7 +20,7 @@ async function updateCountLabel(label, count) {
 	}, 1000);
 }
 
-function initGame() {
+function initGame (){
 	blackCount = 2;
 	whiteCount = 2;
 	isWhiteTurn = true;
@@ -44,7 +44,7 @@ function initGame() {
 	othelloTiles[4][3].innerHTML = OthelloPin('black');
 }
 
-function checkNeighbors(tiles, turn, now, move, turnTiles = []) {
+function checkNeighbors (tiles, turn, now, move, turnTiles = []){
 	const { x, y } = now;
 	const checkX = +x + move.x;
 	const checkY = +y + move.y;
@@ -53,34 +53,47 @@ function checkNeighbors(tiles, turn, now, move, turnTiles = []) {
 
 	const checkTile = othelloTiles[checkY][checkX];
 	if (!checkTile.innerHTML) return [];
-	if (checkTile.children[0].matches(`.${turn}`) && turnTiles.length !== 0) return turnTiles;
-	if (checkTile.children[0].matches(`.${turn}`) && turnTiles.length === 0) return [];
+	if (checkTile.children[0].matches(`.${turn}`) && turnTiles.length !== 0)
+		return turnTiles;
+	if (checkTile.children[0].matches(`.${turn}`) && turnTiles.length === 0)
+		return [];
 
-	return checkNeighbors(tiles, turn, { x: checkX, y: checkY }, move, [ ...turnTiles, checkTile ]);
+	return checkNeighbors(tiles, turn, { x: checkX, y: checkY }, move, [
+		...turnTiles,
+		checkTile,
+	]);
 }
 
-function getWhosTurn(isWhiteTurn) {
+function getWhosTurn (isWhiteTurn){
 	return isWhiteTurn ? 'white' : 'black';
 }
 
-function updateLabel(blackCount, whiteCount) {
+function updateLabel (blackCount, whiteCount){
 	updateCountLabel(blackCountLabel, blackCount);
 	updateCountLabel(whiteCountLabel, whiteCount);
 }
 
 initGame();
 
-function showWinOverlay() {
+function showWinOverlay (){
 	document.getElementById('win-overlay').classList.remove('hide');
 	document.getElementById('player-win').textContent =
-		whiteCount === blackCount ? 'No One' : whiteCount > blackCount ? 'White' : 'Black';
+		whiteCount === blackCount
+			? 'No One'
+			: whiteCount > blackCount ? 'White' : 'Black';
 	document.getElementById('white-count-win').textContent = whiteCount;
 	document.getElementById('black-count-win').textContent = blackCount;
 }
 
-function changeTurn() {
+function changeTurn (){
 	isWhiteTurn = !isWhiteTurn;
 	document.body.classList.toggle('is-white');
+
+	const meta = document.querySelector('meta[name="theme-color"]');
+	let color;
+	if (isWhiteTurn) color = '#f0f0f0';
+	else color = '#0f0f0f';
+	meta.setAttribute('content', color);
 
 	updateLabel(blackCount, whiteCount);
 
@@ -92,25 +105,46 @@ function changeTurn() {
 	}
 }
 
-function getTilesTurned(tile) {
+function getTilesTurned (tile){
 	const posData = tile.dataset;
 	const turnColor = getWhosTurn(isWhiteTurn);
 
 	if (tile.children.length !== 0) return;
 
 	let turned = checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: 1 });
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: -1 }) ];
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: 0 }) ];
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: 0, y: -1 }) ];
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: 0 }) ];
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: 0, y: 1 }) ];
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: 1 }) ];
-	turned = [ ...turned, ...checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: -1 }) ];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: -1 }),
+	];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: 0 }),
+	];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: 0, y: -1 }),
+	];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: 0 }),
+	];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: 0, y: 1 }),
+	];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: -1, y: 1 }),
+	];
+	turned = [
+		...turned,
+		...checkNeighbors(othelloTiles, turnColor, posData, { x: 1, y: -1 }),
+	];
 
 	return turned;
 }
 
-othelloBoard.addEventListener('mouseover', function(e) {
+othelloBoard.addEventListener('mouseover', function (e){
 	const closest = e.target.closest('.tile');
 	if (!closest) return;
 	const turned = getTilesTurned(closest);
@@ -118,7 +152,7 @@ othelloBoard.addEventListener('mouseover', function(e) {
 	if (!turned || turned.length === 0) return;
 	closest.classList.add('hovered');
 });
-othelloBoard.addEventListener('mouseout', function(e) {
+othelloBoard.addEventListener('mouseout', function (e){
 	const closest = e.target.closest('.tile');
 	if (!closest) return;
 

@@ -57,11 +57,13 @@ body .white-overlay {
 }
 body.is-white .white-overlay {
 	background-color: rgba(225, 225, 225, .5);
-	box-shadow: -10px 0 200px 20px rgba(225, 225, 225, .1), 0px 0px 100px 30px rgba(225, 225, 225, .5);
+	box-shadow: -10px 0 200px 20px rgba(225, 225, 225, .1),
+		0px 0px 100px 30px rgba(225, 225, 225, .5);
 }
 body .black-overlay {
 	background-color: rgba(0, 0, 0, .5);
-	box-shadow: 10px 0 200px 20px rgba(0, 0, 0, .5), 0px 0px 100px 30px rgba(0, 0, 0, .5);
+	box-shadow: 10px 0 200px 20px rgba(0, 0, 0, .5),
+		0px 0px 100px 30px rgba(0, 0, 0, .5);
 	transition: all 500ms;
 }
 body.is-white .black-overlay {
@@ -84,14 +86,15 @@ body.is-white .black-overlay {
 	align-items: flex-start;
 }
 .othello-board-container {
-	width: 450px;
+	width: 430px;
 	height: 550px;
 	background-color: rgb(50, 50, 50);
 	border-radius: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: inset 0px 0px 15px 30px rgba(30, 30, 30, .5), 0px 0px 10px 5px rgb(10, 10, 10);
+	box-shadow: inset 0px 0px 15px 30px rgba(30, 30, 30, .5),
+		0px 0px 10px 5px rgb(10, 10, 10);
 }
 .othello-board {
 	width: 400px;
@@ -277,9 +280,48 @@ body.is-tie #win-overlay div {
 	padding: 10px 20px;
 	border: 0;
 	border-radius: 5px;
-	box-shadow: 0px 0px 15px 0px rgba(var(--enemy-color), .2), 0px 0px 3px 0px rgba(var(--enemy-color), .5);
+	box-shadow: 0px 0px 15px 0px rgba(var(--enemy-color), .2),
+		0px 0px 3px 0px rgba(var(--enemy-color), .5);
 	transition: all 500ms;
 }
 #restart-btn:hover {
-	box-shadow: 0px 0px 25px 0px rgba(var(--enemy-color), .3), 0px 0px 8px 0px rgba(var(--enemy-color), .5);
+	box-shadow: 0px 0px 25px 0px rgba(var(--enemy-color), .3),
+		0px 0px 8px 0px rgba(var(--enemy-color), .5);
+}
+
+.mobile-players-container {
+	display: none;
+}
+
+@media screen and (max-width: 1000px) {
+	.game-container {
+		padding: 50px 0px;
+	}
+	.player-container {
+		padding: 50px 20px;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.game-container {
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 0;
+	}
+	.othello-board-container {
+		height: 520px;
+	}
+	.player-container {
+		display: none;
+	}
+	.mobile-players-container .player-container {
+		display: flex;
+		padding: 10px 30px;
+	}
+	.mobile-players-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 }

@@ -76,6 +76,37 @@ body.is-white .black-overlay {
 	box-shadow: none;
 }
 
+#skip-overlay {
+	background-color: rgba(var(--player-color), .75);
+	z-index: -1;
+	opacity: 0;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+#skip-overlay * {
+	color: rgb(var(--enemy-color));
+}
+@keyframes flyout {
+	30% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
+	}
+}
+#skip-overlay.show {
+	animation: flyout 2s 1;
+	z-index: 999;
+}
+
 .game-container {
 	position: absolute;
 	max-width: 1250px;

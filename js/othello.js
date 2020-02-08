@@ -3,7 +3,8 @@ import OthelloPin from './modules/othello-pin.js';
 const rows = document.getElementsByClassName('row-tiles');
 const othelloBoard = document.getElementById('othello-board');
 const othelloTiles = Array.from(rows).map((row) => Array.from(row.children));
-let isWhiteTurn = true;
+const skipOverlay = document.getElementById('skip-overlay');
+let isWhiteTurn = false;
 let blackCount = 2;
 let whiteCount = 2;
 
@@ -33,12 +34,11 @@ function updateCountLabels (labels, count){
 function initGame (){
 	blackCount = 2;
 	whiteCount = 2;
-	isWhiteTurn = true;
+	isWhiteTurn = false;
 	updateCountLabels(blackCountLabels, blackCount);
 	updateCountLabels(whiteCountLabels, whiteCount);
 
 	document.getElementById('win-overlay').classList.add('hide');
-	document.body.classList.add('is-white');
 
 	othelloTiles.forEach((row, i) => {
 		row.forEach((tile, j) => {
@@ -106,6 +106,17 @@ function changeTurn (){
 		if (whiteCount === blackCount) document.body.classList.add('is-tie');
 		else if (whiteCount > blackCount) document.body.classList.add('is-white');
 		showWinOverlay();
+
+		return;
+	}
+
+	if (!canOverTurn()) {
+		skipOverlay.classList.add('show');
+		setTimeout(() => {
+			skipOverlay.classList.remove('show');
+			void skipOverlay.offsetWidth;
+			changeTurn();
+		}, 2000);
 	}
 }
 
@@ -146,6 +157,17 @@ function getTilesTurned (tile){
 	];
 
 	return turned;
+}
+
+function canOverTurn (){
+	const tiles = document.getElementsByClassName('tile');
+	for (let i = 0; i < tiles.length; i++) {
+		const turned = getTilesTurned(tiles[i]);
+		if (turned && turned.length !== 0) {
+			return true;
+		}
+	}
+	return false;
 }
 
 othelloBoard.addEventListener('mouseover', function (e){

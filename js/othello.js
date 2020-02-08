@@ -7,8 +7,14 @@ let isWhiteTurn = true;
 let blackCount = 2;
 let whiteCount = 2;
 
-const blackCountLabel = document.getElementById('black-count');
-const whiteCountLabel = document.getElementById('white-count');
+const blackCountLabels = [
+	document.getElementById('black-count'),
+	document.getElementById('mobile-black-count'),
+];
+const whiteCountLabels = [
+	document.getElementById('white-count'),
+	document.getElementById('mobile-white-count'),
+];
 
 async function updateCountLabel (label, count){
 	await label.classList.add('update-effect');
@@ -20,12 +26,16 @@ async function updateCountLabel (label, count){
 	}, 1000);
 }
 
+function updateCountLabels (labels, count){
+	labels.forEach((label) => updateCountLabel(label, count));
+}
+
 function initGame (){
 	blackCount = 2;
 	whiteCount = 2;
 	isWhiteTurn = true;
-	updateCountLabel(blackCountLabel, blackCount);
-	updateCountLabel(whiteCountLabel, whiteCount);
+	updateCountLabels(blackCountLabels, blackCount);
+	updateCountLabels(whiteCountLabels, whiteCount);
 
 	document.getElementById('win-overlay').classList.add('hide');
 	document.body.classList.add('is-white');
@@ -69,8 +79,8 @@ function getWhosTurn (isWhiteTurn){
 }
 
 function updateLabel (blackCount, whiteCount){
-	updateCountLabel(blackCountLabel, blackCount);
-	updateCountLabel(whiteCountLabel, whiteCount);
+	updateCountLabels(blackCountLabels, blackCount);
+	updateCountLabels(whiteCountLabels, whiteCount);
 }
 
 initGame();

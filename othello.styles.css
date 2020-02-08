@@ -52,14 +52,13 @@ body.is-white {
 	display: flex;
 	position: absolute;
 	z-index: -1;
-	transition: all 500ms;
 }
 .overlay > * {
 	flex: 1;
 }
 body .white-overlay {
 	background-color: rgba(225, 225, 225, .2);
-	transition: all 500ms;
+	transition: box-shadow 500ms, background-color 500ms;
 }
 body.is-white .white-overlay {
 	background-color: rgba(225, 225, 225, .5);
@@ -70,7 +69,7 @@ body .black-overlay {
 	background-color: rgba(0, 0, 0, .5);
 	box-shadow: 10px 0 200px 20px rgba(0, 0, 0, .5),
 		0px 0px 100px 30px rgba(0, 0, 0, .5);
-	transition: all 500ms;
+	transition: box-shadow 500ms, background-color 500ms;
 }
 body.is-white .black-overlay {
 	background-color: rgba(0, 0, 0, .1);
@@ -150,7 +149,7 @@ body.is-white .black-overlay {
 	height: 80%;
 	border-radius: 50%;
 	position: relative;
-	transition: all 500ms linear;
+	transition: transform 500ms linear;
 	transform-style: preserve-3d;
 }
 .othello-board .row-tiles .circle.black {
@@ -200,7 +199,7 @@ body.is-white .black-overlay {
 
 body .black-container .player {
 	text-shadow: 0px 0px 5px black;
-	transition: all 500ms;
+	transition: text-shadow 500ms;
 }
 body.is-white .black-container .player {
 	text-shadow: 0px 0px 1px black;
@@ -213,7 +212,7 @@ body.is-white .black-container .player {
 
 body .white-container .player {
 	text-shadow: 0px 0px 1px white;
-	transition: all 500ms;
+	transition: text-shadow 500ms;
 }
 body.is-white .white-container .player {
 	text-shadow: 0px 0px 5px white;
@@ -254,7 +253,7 @@ body.is-white .white-container .player {
 	color: rgb(var(--player-color));
 	text-shadow: 0px 0px 3px rgb(var(--enemy-color));
 	text-align: center;
-	transition: all 750ms ease-in-out;
+	transition: opacity 750ms ease-in-out;
 }
 #win-overlay.hide {
 	opacity: 0;
@@ -288,7 +287,7 @@ body.is-tie #win-overlay div {
 	border-radius: 5px;
 	box-shadow: 0px 0px 15px 0px rgba(var(--enemy-color), .2),
 		0px 0px 3px 0px rgba(var(--enemy-color), .5);
-	transition: all 500ms;
+	transition: box-shadow 500ms;
 }
 #restart-btn:hover {
 	box-shadow: 0px 0px 25px 0px rgba(var(--enemy-color), .3),
